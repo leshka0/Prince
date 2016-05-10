@@ -1,0 +1,24 @@
+doctype
+
+head
+
+	meta(charset='utf-8')
+	title webgl-app
+
+	if production
+		link(rel="stylesheet", href="css/app.min.css")
+	else
+		link(rel="stylesheet", href="css/app.css")
+
+body(style="background-color: black")
+
+	main#app
+	
+	video(id="video" autoplay loop style="display:none")
+		source(src="textures/alpha-webm.webm" type='video/webm')
+	
+	a#dpr(href="http://ivxvixviii.io")
+	if production	
+		script(src="js/bundle.min.js")
+	else
+		script(src="js/bundle.js")

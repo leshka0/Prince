@@ -1,0 +1,63 @@
+global-reset()
+
+*
+	-webkit-font-smoothing: antialiased
+
+body
+	background-color: black
+	margin: 0
+	overflow: hidden
+	background-size: cover
+	background-position: center
+	font-family : 'Oxygen Mono'
+
+#dpr
+	_width   = 60px
+	_height  = 60px
+	_opacity = 1
+
+	size(_width, _height)
+	
+	absolute bottom 20px left 20px
+	opacity 		 : 0.5
+	transition 		 : opacity .5s EASE
+
+	background-size  : 100%
+	background-image: url('../img/DPR.svg')
+	background-repeat: no-repeat
+	z-index: 10
+
+	&:hover
+		opacity: 1
+
+.dg
+	font-family : 'Oxygen Mono' !important
+	text-transform: uppercase
+
+.dg.ac
+	z-index 	: 1 !important
+
+	.dg li:not(.folder)
+		background : rgba(0, 0, 0, 0.85) !important
+
+	.dg .c .slider-fg
+	.dg .c .slider:hover .slider-fg
+		background : white !important
+
+	.c .slider
+		background : rgba(255, 255, 255, 0.2) !important
+
+
+	.dg .c input[type=text]
+		background-color : #464542
+
+	.hue-field
+		width : 14px !important
+
+	li.string
+		 input[type=text]
+			background: black !important
+			color: white !important
+
+	.cr.string
+		border-left-color: white !important
