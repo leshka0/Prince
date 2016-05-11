@@ -1,5 +1,3 @@
-
-
 import THREE from 'three.js';
 import * as flags from './flags';
 import {gui} from './controllers/gui';
@@ -7,20 +5,18 @@ import Screen from './screen';
 import * as c from './log';
 import lights from './webgl/lights'
 
-
 import {cameraDev, cameraUser} from './webgl/cameras';
 const renderer = require('./webgl/renderer')
 const scene = require('./webgl/scene');
 const OrbitControls = require('three-orbit-controls')(THREE);
 
+//console.log(THREE)
 const colladaload1 = require('../../node_modules/three.js/examples/js/loaders/ColladaLoader.js')(THREE);
-const colladaload2 = require('../../node_modules/three.js/examples/js/loaders/collada/Animation.js')(THREE);
-const colladaload3 = require('../../node_modules/three.js/examples/js/loaders/collada/AnimationHandler.js')(THREE);
-const colladaload4 = require('../../node_modules/three.js/examples/js/loaders/collada/KeyFrameAnimation.js')(THREE);
-const colladaload5 = require('../../node_modules/three.js/examples/js/loaders/ColladaLoader.js')(THREE);
-const colladaload6 = require('../../node_modules/three.js/examples/js/Detector.js')(THREE);
-const colladaload7 = require('../../node_modules/three.js/examples/js/libs/stats.min.js')(THREE);
-
+//const colladaload2 = require('../../node_modules/three.js/examples/js/loaders/collada/Animation.js')(THREE);
+//const colladaload3 = require('../../node_modules/three.js/examples/js/loaders/collada/AnimationHandler.js')(THREE);
+//const colladaload4 = require('../../node_modules/three.js/examples/js/loaders/collada/KeyFrameAnimation.js')(THREE);
+//const colladaload5 = require('../../node_modules/three.js/examples/js/Detector.js')(THREE);
+//const colladaload6 = require('../../node_modules/three.js/examples/js/libs/stats.min.js')(THREE);
 
 
 
@@ -30,7 +26,7 @@ class App{
 
 		c.enable = true;
 
-		c.log('SHK');
+		c.log('IVXVIXVIII');
 
 		this.zoom( cameraDev, 100 );
 

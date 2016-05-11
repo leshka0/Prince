@@ -5628,126 +5628,6 @@ module.exports = function(THREE) {
 }
 
 },{}],6:[function(require,module,exports){
-'use strict';
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-
-/**
- * @author alteredq / http://alteredqualia.com/
- * @author mr.doob / http://mrdoob.com/
- */
-
-var Detector = {
-
-	canvas: !!window.CanvasRenderingContext2D,
-	webgl: function () {
-
-		try {
-
-			var canvas = document.createElement('canvas');return !!(window.WebGLRenderingContext && (canvas.getContext('webgl') || canvas.getContext('experimental-webgl')));
-		} catch (e) {
-
-			return false;
-		}
-	}(),
-	workers: !!window.Worker,
-	fileapi: window.File && window.FileReader && window.FileList && window.Blob,
-
-	getWebGLErrorMessage: function getWebGLErrorMessage() {
-
-		var element = document.createElement('div');
-		element.id = 'webgl-error-message';
-		element.style.fontFamily = 'monospace';
-		element.style.fontSize = '13px';
-		element.style.fontWeight = 'normal';
-		element.style.textAlign = 'center';
-		element.style.background = '#fff';
-		element.style.color = '#000';
-		element.style.padding = '1.5em';
-		element.style.width = '400px';
-		element.style.margin = '5em auto 0';
-
-		if (!this.webgl) {
-
-			element.innerHTML = window.WebGLRenderingContext ? ['Your graphics card does not seem to support <a href="http://khronos.org/webgl/wiki/Getting_a_WebGL_Implementation" style="color:#000">WebGL</a>.<br />', 'Find out how to get it <a href="http://get.webgl.org/" style="color:#000">here</a>.'].join('\n') : ['Your browser does not seem to support <a href="http://khronos.org/webgl/wiki/Getting_a_WebGL_Implementation" style="color:#000">WebGL</a>.<br/>', 'Find out how to get it <a href="http://get.webgl.org/" style="color:#000">here</a>.'].join('\n');
-		}
-
-		return element;
-	},
-
-	addGetWebGLMessage: function addGetWebGLMessage(parameters) {
-
-		var parent, id, element;
-
-		parameters = parameters || {};
-
-		parent = parameters.parent !== undefined ? parameters.parent : document.body;
-		id = parameters.id !== undefined ? parameters.id : 'oldie';
-
-		element = Detector.getWebGLErrorMessage();
-		element.id = id;
-
-		parent.appendChild(element);
-	}
-
-};
-
-// browserify support
-if ((typeof module === 'undefined' ? 'undefined' : _typeof(module)) === 'object') {
-
-	module.exports = Detector;
-}
-
-},{}],7:[function(require,module,exports){
-"use strict";
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-
-// stats.js - http://github.com/mrdoob/stats.js
-var Stats = function Stats() {
-  function h(a) {
-    c.appendChild(a.dom);return a;
-  }function k(a) {
-    for (var d = 0; d < c.children.length; d++) {
-      c.children[d].style.display = d === a ? "block" : "none";
-    }l = a;
-  }var l = 0,
-      c = document.createElement("div");c.style.cssText = "position:fixed;top:0;left:0;cursor:pointer;opacity:0.9;z-index:10000";c.addEventListener("click", function (a) {
-    a.preventDefault();k(++l % c.children.length);
-  }, !1);var g = (performance || Date).now(),
-      e = g,
-      a = 0,
-      r = h(new Stats.Panel("FPS", "#0ff", "#002")),
-      f = h(new Stats.Panel("MS", "#0f0", "#020"));
-  if (self.performance && self.performance.memory) var t = h(new Stats.Panel("MB", "#f08", "#201"));k(0);return { REVISION: 16, dom: c, addPanel: h, showPanel: k, begin: function begin() {
-      g = (performance || Date).now();
-    }, end: function end() {
-      a++;var c = (performance || Date).now();f.update(c - g, 200);if (c > e + 1E3 && (r.update(1E3 * a / (c - e), 100), e = c, a = 0, t)) {
-        var d = performance.memory;t.update(d.usedJSHeapSize / 1048576, d.jsHeapSizeLimit / 1048576);
-      }return c;
-    }, update: function update() {
-      g = this.end();
-    }, domElement: c, setMode: k };
-};
-Stats.Panel = function (h, k, l) {
-  var c = Infinity,
-      g = 0,
-      e = Math.round,
-      a = e(window.devicePixelRatio || 1),
-      r = 80 * a,
-      f = 48 * a,
-      t = 3 * a,
-      u = 2 * a,
-      d = 3 * a,
-      m = 15 * a,
-      n = 74 * a,
-      p = 30 * a,
-      q = document.createElement("canvas");q.width = r;q.height = f;q.style.cssText = "width:80px;height:48px";var b = q.getContext("2d");b.font = "bold " + 9 * a + "px Helvetica,Arial,sans-serif";b.textBaseline = "top";b.fillStyle = l;b.fillRect(0, 0, r, f);b.fillStyle = k;b.fillText(h, t, u);b.fillRect(d, m, n, p);b.fillStyle = l;b.globalAlpha = .9;b.fillRect(d, m, n, p);return { dom: q, update: function update(f, v) {
-      c = Math.min(c, f);g = Math.max(g, f);b.fillStyle = l;b.globalAlpha = 1;b.fillRect(0, 0, r, m);b.fillStyle = k;b.fillText(e(f) + " " + h + " (" + e(c) + "-" + e(g) + ")", t, u);b.drawImage(q, d + a, m, n - a, p, d, m, n - a, p);b.fillRect(d + n - a, m, a, p);b.fillStyle = l;b.globalAlpha = .9;b.fillRect(d + n - a, m, a, e((1 - f / v) * p));
-    } };
-};"object" === (typeof module === "undefined" ? "undefined" : _typeof(module)) && (module.exports = Stats);
-
-},{}],8:[function(require,module,exports){
 'use strict'; /**
 * @author Tim Knip / http://www.floorplanner.com/ / tim at floorplanner.com
 * @author Tony Parisi / http://www.tonyparisi.com/
@@ -5840,782 +5720,7 @@ var arr=[data[0],data[4],data[8]];fixCoords(arr,-1);data[0]=arr[0];data[4]=arr[1
 arr=[data[0],data[1],data[2]];fixCoords(arr,-1);data[0]=arr[0];data[1]=arr[1];data[2]=arr[2];arr=[data[4],data[5],data[6]];fixCoords(arr,-1);data[4]=arr[0];data[5]=arr[1];data[6]=arr[2];arr=[data[8],data[9],data[10]];fixCoords(arr,-1);data[8]=arr[0];data[9]=arr[1];data[10]=arr[2]; // Now fix translation
 arr=[data[3],data[7],data[11]];fixCoords(arr,-1);data[3]=arr[0];data[7]=arr[1];data[11]=arr[2];}return new THREE.Matrix4().set(data[0],data[1],data[2],data[3],data[4],data[5],data[6],data[7],data[8],data[9],data[10],data[11],data[12],data[13],data[14],data[15]);}function getConvertedIndex(index){if(index>-1&&index<3){var members=['X','Y','Z'],indices={X:0,Y:1,Z:2};index=getConvertedMember(members[index]);index=indices[index];}return index;}function getConvertedMember(member){if(options.convertUpAxis){switch(member){case 'X':switch(upConversion){case 'XtoY':case 'XtoZ':case 'YtoX':member='Y';break;case 'ZtoX':member='Z';break;}break;case 'Y':switch(upConversion){case 'XtoY':case 'YtoX':case 'ZtoX':member='X';break;case 'XtoZ':case 'YtoZ':case 'ZtoY':member='Z';break;}break;case 'Z':switch(upConversion){case 'XtoZ':member='X';break;case 'YtoZ':case 'ZtoX':case 'ZtoY':member='Y';break;}break;}}return member;}return {load:load,parse:parse,setPreferredShading:setPreferredShading,applySkin:applySkin,geometries:geometries,options:options};};
 
-},{}],9:[function(require,module,exports){
-"use strict";
-
-/**
- * @author mikael emtinger / http://gomo.se/
- * @author mrdoob / http://mrdoob.com/
- * @author alteredq / http://alteredqualia.com/
- */
-
-THREE.Animation = function (root, data) {
-
-	this.root = root;
-	this.data = THREE.AnimationHandler.init(data);
-	this.hierarchy = THREE.AnimationHandler.parse(root);
-
-	this.currentTime = 0;
-	this.timeScale = 1;
-
-	this.isPlaying = false;
-	this.loop = true;
-	this.weight = 0;
-
-	this.interpolationType = THREE.AnimationHandler.LINEAR;
-};
-
-THREE.Animation.prototype = {
-
-	constructor: THREE.Animation,
-
-	keyTypes: ["pos", "rot", "scl"],
-
-	play: function play(startTime, weight) {
-
-		this.currentTime = startTime !== undefined ? startTime : 0;
-		this.weight = weight !== undefined ? weight : 1;
-
-		this.isPlaying = true;
-
-		this.reset();
-
-		THREE.AnimationHandler.play(this);
-	},
-
-	stop: function stop() {
-
-		this.isPlaying = false;
-
-		THREE.AnimationHandler.stop(this);
-	},
-
-	reset: function reset() {
-
-		for (var h = 0, hl = this.hierarchy.length; h < hl; h++) {
-
-			var object = this.hierarchy[h];
-
-			if (object.animationCache === undefined) {
-
-				object.animationCache = {
-					animations: {},
-					blending: {
-						positionWeight: 0.0,
-						quaternionWeight: 0.0,
-						scaleWeight: 0.0
-					}
-				};
-			}
-
-			var name = this.data.name;
-			var animations = object.animationCache.animations;
-			var animationCache = animations[name];
-
-			if (animationCache === undefined) {
-
-				animationCache = {
-					prevKey: { pos: 0, rot: 0, scl: 0 },
-					nextKey: { pos: 0, rot: 0, scl: 0 },
-					originalMatrix: object.matrix
-				};
-
-				animations[name] = animationCache;
-			}
-
-			// Get keys to match our current time
-
-			for (var t = 0; t < 3; t++) {
-
-				var type = this.keyTypes[t];
-
-				var prevKey = this.data.hierarchy[h].keys[0];
-				var nextKey = this.getNextKeyWith(type, h, 1);
-
-				while (nextKey.time < this.currentTime && nextKey.index > prevKey.index) {
-
-					prevKey = nextKey;
-					nextKey = this.getNextKeyWith(type, h, nextKey.index + 1);
-				}
-
-				animationCache.prevKey[type] = prevKey;
-				animationCache.nextKey[type] = nextKey;
-			}
-		}
-	},
-
-	resetBlendWeights: function resetBlendWeights() {
-
-		for (var h = 0, hl = this.hierarchy.length; h < hl; h++) {
-
-			var object = this.hierarchy[h];
-			var animationCache = object.animationCache;
-
-			if (animationCache !== undefined) {
-
-				var blending = animationCache.blending;
-
-				blending.positionWeight = 0.0;
-				blending.quaternionWeight = 0.0;
-				blending.scaleWeight = 0.0;
-			}
-		}
-	},
-
-	update: function () {
-
-		var points = [];
-		var target = new THREE.Vector3();
-		var newVector = new THREE.Vector3();
-		var newQuat = new THREE.Quaternion();
-
-		// Catmull-Rom spline
-
-		var interpolateCatmullRom = function interpolateCatmullRom(points, scale) {
-
-			var c = [],
-			    v3 = [],
-			    point,
-			    intPoint,
-			    weight,
-			    w2,
-			    w3,
-			    pa,
-			    pb,
-			    pc,
-			    pd;
-
-			point = (points.length - 1) * scale;
-			intPoint = Math.floor(point);
-			weight = point - intPoint;
-
-			c[0] = intPoint === 0 ? intPoint : intPoint - 1;
-			c[1] = intPoint;
-			c[2] = intPoint > points.length - 2 ? intPoint : intPoint + 1;
-			c[3] = intPoint > points.length - 3 ? intPoint : intPoint + 2;
-
-			pa = points[c[0]];
-			pb = points[c[1]];
-			pc = points[c[2]];
-			pd = points[c[3]];
-
-			w2 = weight * weight;
-			w3 = weight * w2;
-
-			v3[0] = interpolate(pa[0], pb[0], pc[0], pd[0], weight, w2, w3);
-			v3[1] = interpolate(pa[1], pb[1], pc[1], pd[1], weight, w2, w3);
-			v3[2] = interpolate(pa[2], pb[2], pc[2], pd[2], weight, w2, w3);
-
-			return v3;
-		};
-
-		var interpolate = function interpolate(p0, p1, p2, p3, t, t2, t3) {
-
-			var v0 = (p2 - p0) * 0.5,
-			    v1 = (p3 - p1) * 0.5;
-
-			return (2 * (p1 - p2) + v0 + v1) * t3 + (-3 * (p1 - p2) - 2 * v0 - v1) * t2 + v0 * t + p1;
-		};
-
-		return function (delta) {
-
-			if (this.isPlaying === false) return;
-
-			this.currentTime += delta * this.timeScale;
-
-			if (this.weight === 0) return;
-
-			//
-
-			var duration = this.data.length;
-
-			if (this.currentTime > duration || this.currentTime < 0) {
-
-				if (this.loop) {
-
-					this.currentTime %= duration;
-
-					if (this.currentTime < 0) this.currentTime += duration;
-
-					this.reset();
-				} else {
-
-					this.stop();
-				}
-			}
-
-			for (var h = 0, hl = this.hierarchy.length; h < hl; h++) {
-
-				var object = this.hierarchy[h];
-				var animationCache = object.animationCache.animations[this.data.name];
-				var blending = object.animationCache.blending;
-
-				// loop through pos/rot/scl
-
-				for (var t = 0; t < 3; t++) {
-
-					// get keys
-
-					var type = this.keyTypes[t];
-					var prevKey = animationCache.prevKey[type];
-					var nextKey = animationCache.nextKey[type];
-
-					if (this.timeScale > 0 && nextKey.time <= this.currentTime || this.timeScale < 0 && prevKey.time >= this.currentTime) {
-
-						prevKey = this.data.hierarchy[h].keys[0];
-						nextKey = this.getNextKeyWith(type, h, 1);
-
-						while (nextKey.time < this.currentTime && nextKey.index > prevKey.index) {
-
-							prevKey = nextKey;
-							nextKey = this.getNextKeyWith(type, h, nextKey.index + 1);
-						}
-
-						animationCache.prevKey[type] = prevKey;
-						animationCache.nextKey[type] = nextKey;
-					}
-
-					var scale = (this.currentTime - prevKey.time) / (nextKey.time - prevKey.time);
-
-					var prevXYZ = prevKey[type];
-					var nextXYZ = nextKey[type];
-
-					if (scale < 0) scale = 0;
-					if (scale > 1) scale = 1;
-
-					// interpolate
-
-					if (type === "pos") {
-
-						if (this.interpolationType === THREE.AnimationHandler.LINEAR) {
-
-							newVector.x = prevXYZ[0] + (nextXYZ[0] - prevXYZ[0]) * scale;
-							newVector.y = prevXYZ[1] + (nextXYZ[1] - prevXYZ[1]) * scale;
-							newVector.z = prevXYZ[2] + (nextXYZ[2] - prevXYZ[2]) * scale;
-
-							// blend
-							var proportionalWeight = this.weight / (this.weight + blending.positionWeight);
-							object.position.lerp(newVector, proportionalWeight);
-							blending.positionWeight += this.weight;
-						} else if (this.interpolationType === THREE.AnimationHandler.CATMULLROM || this.interpolationType === THREE.AnimationHandler.CATMULLROM_FORWARD) {
-
-							points[0] = this.getPrevKeyWith("pos", h, prevKey.index - 1)["pos"];
-							points[1] = prevXYZ;
-							points[2] = nextXYZ;
-							points[3] = this.getNextKeyWith("pos", h, nextKey.index + 1)["pos"];
-
-							scale = scale * 0.33 + 0.33;
-
-							var currentPoint = interpolateCatmullRom(points, scale);
-							var proportionalWeight = this.weight / (this.weight + blending.positionWeight);
-							blending.positionWeight += this.weight;
-
-							// blend
-
-							var vector = object.position;
-
-							vector.x = vector.x + (currentPoint[0] - vector.x) * proportionalWeight;
-							vector.y = vector.y + (currentPoint[1] - vector.y) * proportionalWeight;
-							vector.z = vector.z + (currentPoint[2] - vector.z) * proportionalWeight;
-
-							if (this.interpolationType === THREE.AnimationHandler.CATMULLROM_FORWARD) {
-
-								var forwardPoint = interpolateCatmullRom(points, scale * 1.01);
-
-								target.set(forwardPoint[0], forwardPoint[1], forwardPoint[2]);
-								target.sub(vector);
-								target.y = 0;
-								target.normalize();
-
-								var angle = Math.atan2(target.x, target.z);
-								object.rotation.set(0, angle, 0);
-							}
-						}
-					} else if (type === "rot") {
-
-						THREE.Quaternion.slerp(prevXYZ, nextXYZ, newQuat, scale);
-
-						// Avoid paying the cost of an additional slerp if we don't have to
-						if (blending.quaternionWeight === 0) {
-
-							object.quaternion.copy(newQuat);
-							blending.quaternionWeight = this.weight;
-						} else {
-
-							var proportionalWeight = this.weight / (this.weight + blending.quaternionWeight);
-							THREE.Quaternion.slerp(object.quaternion, newQuat, object.quaternion, proportionalWeight);
-							blending.quaternionWeight += this.weight;
-						}
-					} else if (type === "scl") {
-
-						newVector.x = prevXYZ[0] + (nextXYZ[0] - prevXYZ[0]) * scale;
-						newVector.y = prevXYZ[1] + (nextXYZ[1] - prevXYZ[1]) * scale;
-						newVector.z = prevXYZ[2] + (nextXYZ[2] - prevXYZ[2]) * scale;
-
-						var proportionalWeight = this.weight / (this.weight + blending.scaleWeight);
-						object.scale.lerp(newVector, proportionalWeight);
-						blending.scaleWeight += this.weight;
-					}
-				}
-			}
-
-			return true;
-		};
-	}(),
-
-	getNextKeyWith: function getNextKeyWith(type, h, key) {
-
-		var keys = this.data.hierarchy[h].keys;
-
-		if (this.interpolationType === THREE.AnimationHandler.CATMULLROM || this.interpolationType === THREE.AnimationHandler.CATMULLROM_FORWARD) {
-
-			key = key < keys.length - 1 ? key : keys.length - 1;
-		} else {
-
-			key = key % keys.length;
-		}
-
-		for (; key < keys.length; key++) {
-
-			if (keys[key][type] !== undefined) {
-
-				return keys[key];
-			}
-		}
-
-		return this.data.hierarchy[h].keys[0];
-	},
-
-	getPrevKeyWith: function getPrevKeyWith(type, h, key) {
-
-		var keys = this.data.hierarchy[h].keys;
-
-		if (this.interpolationType === THREE.AnimationHandler.CATMULLROM || this.interpolationType === THREE.AnimationHandler.CATMULLROM_FORWARD) {
-
-			key = key > 0 ? key : 0;
-		} else {
-
-			key = key >= 0 ? key : key + keys.length;
-		}
-
-		for (; key >= 0; key--) {
-
-			if (keys[key][type] !== undefined) {
-
-				return keys[key];
-			}
-		}
-
-		return this.data.hierarchy[h].keys[keys.length - 1];
-	}
-
-};
-
-},{}],10:[function(require,module,exports){
-'use strict';
-
-/**
- * @author mikael emtinger / http://gomo.se/
- */
-
-THREE.AnimationHandler = {
-
-	LINEAR: 0,
-	CATMULLROM: 1,
-	CATMULLROM_FORWARD: 2,
-
-	//
-
-	add: function add() {
-
-		console.warn('THREE.AnimationHandler.add() has been deprecated.');
-	},
-	get: function get() {
-
-		console.warn('THREE.AnimationHandler.get() has been deprecated.');
-	},
-	remove: function remove() {
-
-		console.warn('THREE.AnimationHandler.remove() has been deprecated.');
-	},
-
-	//
-
-	animations: [],
-
-	init: function init(data) {
-
-		if (data.initialized === true) return data;
-
-		// loop through all keys
-
-		for (var h = 0; h < data.hierarchy.length; h++) {
-
-			for (var k = 0; k < data.hierarchy[h].keys.length; k++) {
-
-				// remove minus times
-
-				if (data.hierarchy[h].keys[k].time < 0) {
-
-					data.hierarchy[h].keys[k].time = 0;
-				}
-
-				// create quaternions
-
-				if (data.hierarchy[h].keys[k].rot !== undefined && !(data.hierarchy[h].keys[k].rot instanceof THREE.Quaternion)) {
-
-					var quat = data.hierarchy[h].keys[k].rot;
-					data.hierarchy[h].keys[k].rot = new THREE.Quaternion().fromArray(quat);
-				}
-			}
-
-			// prepare morph target keys
-
-			if (data.hierarchy[h].keys.length && data.hierarchy[h].keys[0].morphTargets !== undefined) {
-
-				// get all used
-
-				var usedMorphTargets = {};
-
-				for (var k = 0; k < data.hierarchy[h].keys.length; k++) {
-
-					for (var m = 0; m < data.hierarchy[h].keys[k].morphTargets.length; m++) {
-
-						var morphTargetName = data.hierarchy[h].keys[k].morphTargets[m];
-						usedMorphTargets[morphTargetName] = -1;
-					}
-				}
-
-				data.hierarchy[h].usedMorphTargets = usedMorphTargets;
-
-				// set all used on all frames
-
-				for (var k = 0; k < data.hierarchy[h].keys.length; k++) {
-
-					var influences = {};
-
-					for (var morphTargetName in usedMorphTargets) {
-
-						for (var m = 0; m < data.hierarchy[h].keys[k].morphTargets.length; m++) {
-
-							if (data.hierarchy[h].keys[k].morphTargets[m] === morphTargetName) {
-
-								influences[morphTargetName] = data.hierarchy[h].keys[k].morphTargetsInfluences[m];
-								break;
-							}
-						}
-
-						if (m === data.hierarchy[h].keys[k].morphTargets.length) {
-
-							influences[morphTargetName] = 0;
-						}
-					}
-
-					data.hierarchy[h].keys[k].morphTargetsInfluences = influences;
-				}
-			}
-
-			// remove all keys that are on the same time
-
-			for (var k = 1; k < data.hierarchy[h].keys.length; k++) {
-
-				if (data.hierarchy[h].keys[k].time === data.hierarchy[h].keys[k - 1].time) {
-
-					data.hierarchy[h].keys.splice(k, 1);
-					k--;
-				}
-			}
-
-			// set index
-
-			for (var k = 0; k < data.hierarchy[h].keys.length; k++) {
-
-				data.hierarchy[h].keys[k].index = k;
-			}
-		}
-
-		data.initialized = true;
-
-		return data;
-	},
-
-	parse: function parse(root) {
-
-		var parseRecurseHierarchy = function parseRecurseHierarchy(root, hierarchy) {
-
-			hierarchy.push(root);
-
-			for (var c = 0; c < root.children.length; c++) {
-				parseRecurseHierarchy(root.children[c], hierarchy);
-			}
-		};
-
-		// setup hierarchy
-
-		var hierarchy = [];
-
-		if (root instanceof THREE.SkinnedMesh) {
-
-			for (var b = 0; b < root.skeleton.bones.length; b++) {
-
-				hierarchy.push(root.skeleton.bones[b]);
-			}
-		} else {
-
-			parseRecurseHierarchy(root, hierarchy);
-		}
-
-		return hierarchy;
-	},
-
-	play: function play(animation) {
-
-		if (this.animations.indexOf(animation) === -1) {
-
-			this.animations.push(animation);
-		}
-	},
-
-	stop: function stop(animation) {
-
-		var index = this.animations.indexOf(animation);
-
-		if (index !== -1) {
-
-			this.animations.splice(index, 1);
-		}
-	},
-
-	update: function update(deltaTimeMS) {
-
-		for (var i = 0; i < this.animations.length; i++) {
-
-			this.animations[i].resetBlendWeights();
-		}
-
-		for (var i = 0; i < this.animations.length; i++) {
-
-			this.animations[i].update(deltaTimeMS);
-		}
-	}
-
-};
-
-},{}],11:[function(require,module,exports){
-"use strict";
-
-/**
- * @author mikael emtinger / http://gomo.se/
- * @author mrdoob / http://mrdoob.com/
- * @author alteredq / http://alteredqualia.com/
- * @author khang duong
- * @author erik kitson
- */
-
-THREE.KeyFrameAnimation = function (data) {
-
-	this.root = data.node;
-	this.data = THREE.AnimationHandler.init(data);
-	this.hierarchy = THREE.AnimationHandler.parse(this.root);
-	this.currentTime = 0;
-	this.timeScale = 0.001;
-	this.isPlaying = false;
-	this.isPaused = true;
-	this.loop = true;
-
-	// initialize to first keyframes
-
-	for (var h = 0, hl = this.hierarchy.length; h < hl; h++) {
-
-		var keys = this.data.hierarchy[h].keys,
-		    sids = this.data.hierarchy[h].sids,
-		    obj = this.hierarchy[h];
-
-		if (keys.length && sids) {
-
-			for (var s = 0; s < sids.length; s++) {
-
-				var sid = sids[s],
-				    next = this.getNextKeyWith(sid, h, 0);
-
-				if (next) {
-
-					next.apply(sid);
-				}
-			}
-
-			obj.matrixAutoUpdate = false;
-			this.data.hierarchy[h].node.updateMatrix();
-			obj.matrixWorldNeedsUpdate = true;
-		}
-	}
-};
-
-THREE.KeyFrameAnimation.prototype = {
-
-	constructor: THREE.KeyFrameAnimation,
-
-	play: function play(startTime) {
-
-		this.currentTime = startTime !== undefined ? startTime : 0;
-
-		if (this.isPlaying === false) {
-
-			this.isPlaying = true;
-
-			// reset key cache
-
-			var h,
-			    hl = this.hierarchy.length,
-			    object,
-			    node;
-
-			for (h = 0; h < hl; h++) {
-
-				object = this.hierarchy[h];
-				node = this.data.hierarchy[h];
-
-				if (node.animationCache === undefined) {
-
-					node.animationCache = {};
-					node.animationCache.prevKey = null;
-					node.animationCache.nextKey = null;
-					node.animationCache.originalMatrix = object.matrix;
-				}
-
-				var keys = this.data.hierarchy[h].keys;
-
-				if (keys.length > 1) {
-
-					node.animationCache.prevKey = keys[0];
-					node.animationCache.nextKey = keys[1];
-
-					this.startTime = Math.min(keys[0].time, this.startTime);
-					this.endTime = Math.max(keys[keys.length - 1].time, this.endTime);
-				}
-			}
-
-			this.update(0);
-		}
-
-		this.isPaused = false;
-	},
-
-	stop: function stop() {
-
-		this.isPlaying = false;
-		this.isPaused = false;
-
-		// reset JIT matrix and remove cache
-
-		for (var h = 0; h < this.data.hierarchy.length; h++) {
-
-			var obj = this.hierarchy[h];
-			var node = this.data.hierarchy[h];
-
-			if (node.animationCache !== undefined) {
-
-				var original = node.animationCache.originalMatrix;
-
-				original.copy(obj.matrix);
-				obj.matrix = original;
-
-				delete node.animationCache;
-			}
-		}
-	},
-
-	update: function update(delta) {
-
-		if (this.isPlaying === false) return;
-
-		this.currentTime += delta * this.timeScale;
-
-		//
-
-		var duration = this.data.length;
-
-		if (this.loop === true && this.currentTime > duration) {
-
-			this.currentTime %= duration;
-		}
-
-		this.currentTime = Math.min(this.currentTime, duration);
-
-		for (var h = 0, hl = this.hierarchy.length; h < hl; h++) {
-
-			var object = this.hierarchy[h];
-			var node = this.data.hierarchy[h];
-
-			var keys = node.keys,
-			    animationCache = node.animationCache;
-
-			if (keys.length) {
-
-				var prevKey = animationCache.prevKey;
-				var nextKey = animationCache.nextKey;
-
-				if (nextKey.time <= this.currentTime) {
-
-					while (nextKey.time < this.currentTime && nextKey.index > prevKey.index) {
-
-						prevKey = nextKey;
-						nextKey = keys[prevKey.index + 1];
-					}
-
-					animationCache.prevKey = prevKey;
-					animationCache.nextKey = nextKey;
-				}
-
-				if (nextKey.time >= this.currentTime) {
-
-					prevKey.interpolate(nextKey, this.currentTime);
-				} else {
-
-					prevKey.interpolate(nextKey, nextKey.time);
-				}
-
-				this.data.hierarchy[h].node.updateMatrix();
-				object.matrixWorldNeedsUpdate = true;
-			}
-		}
-	},
-
-	getNextKeyWith: function getNextKeyWith(sid, h, key) {
-
-		var keys = this.data.hierarchy[h].keys;
-		key = key % keys.length;
-
-		for (; key < keys.length; key++) {
-
-			if (keys[key].hasTarget(sid)) {
-
-				return keys[key];
-			}
-		}
-
-		return keys[0];
-	},
-
-	getPrevKeyWith: function getPrevKeyWith(sid, h, key) {
-
-		var keys = this.data.hierarchy[h].keys;
-		key = key >= 0 ? key : key + keys.length;
-
-		for (; key >= 0; key--) {
-
-			if (keys[key].hasTarget(sid)) {
-
-				return keys[key];
-			}
-		}
-
-		return keys[keys.length - 1];
-	}
-
-};
-
-},{}],12:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 var self = self || {};// File:src/Three.js
 
 /**
@@ -42804,7 +41909,7 @@ if (typeof exports !== 'undefined') {
   this['THREE'] = THREE;
 }
 
-},{}],13:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 var THREE = require('three');
 
 console.warn( "WARNING: The 'three.js' npm package is deprecated in favor of the 'three' npm package, please upgrade.");
@@ -42818,7 +41923,7 @@ if (typeof exports !== 'undefined') {
   this['THREE'] = THREE;
 }
 
-},{"three":12}],14:[function(require,module,exports){
+},{"three":7}],9:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -42885,13 +41990,13 @@ var renderer = require('./webgl/renderer');
 var scene = require('./webgl/scene');
 var OrbitControls = require('three-orbit-controls')(_three2.default);
 
+//console.log(THREE)
 var colladaload1 = require('../../node_modules/three.js/examples/js/loaders/ColladaLoader.js')(_three2.default);
-var colladaload2 = require('../../node_modules/three.js/examples/js/loaders/collada/Animation.js')(_three2.default);
-var colladaload3 = require('../../node_modules/three.js/examples/js/loaders/collada/AnimationHandler.js')(_three2.default);
-var colladaload4 = require('../../node_modules/three.js/examples/js/loaders/collada/KeyFrameAnimation.js')(_three2.default);
-var colladaload5 = require('../../node_modules/three.js/examples/js/loaders/ColladaLoader.js')(_three2.default);
-var colladaload6 = require('../../node_modules/three.js/examples/js/Detector.js')(_three2.default);
-var colladaload7 = require('../../node_modules/three.js/examples/js/libs/stats.min.js')(_three2.default);
+//const colladaload2 = require('../../node_modules/three.js/examples/js/loaders/collada/Animation.js')(THREE);
+//const colladaload3 = require('../../node_modules/three.js/examples/js/loaders/collada/AnimationHandler.js')(THREE);
+//const colladaload4 = require('../../node_modules/three.js/examples/js/loaders/collada/KeyFrameAnimation.js')(THREE);
+//const colladaload5 = require('../../node_modules/three.js/examples/js/Detector.js')(THREE);
+//const colladaload6 = require('../../node_modules/three.js/examples/js/libs/stats.min.js')(THREE);
 
 var App = function () {
 	function App() {
@@ -42899,7 +42004,7 @@ var App = function () {
 
 		c.enable = true;
 
-		c.log('SHK');
+		c.log('IVXVIXVIII');
 
 		this.zoom(_cameras.cameraDev, 100);
 
@@ -43000,7 +42105,7 @@ var App = function () {
 
 exports.default = new App();
 
-},{"../../node_modules/three.js/examples/js/Detector.js":6,"../../node_modules/three.js/examples/js/libs/stats.min.js":7,"../../node_modules/three.js/examples/js/loaders/ColladaLoader.js":8,"../../node_modules/three.js/examples/js/loaders/collada/Animation.js":9,"../../node_modules/three.js/examples/js/loaders/collada/AnimationHandler.js":10,"../../node_modules/three.js/examples/js/loaders/collada/KeyFrameAnimation.js":11,"./controllers/gui":15,"./flags":16,"./log":18,"./screen":19,"./webgl/cameras":20,"./webgl/lights":21,"./webgl/renderer":22,"./webgl/scene":23,"three-orbit-controls":5,"three.js":13}],15:[function(require,module,exports){
+},{"../../node_modules/three.js/examples/js/loaders/ColladaLoader.js":6,"./controllers/gui":10,"./flags":11,"./log":13,"./screen":14,"./webgl/cameras":15,"./webgl/lights":16,"./webgl/renderer":17,"./webgl/scene":18,"three-orbit-controls":5,"three.js":8}],10:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -43036,7 +42141,7 @@ var gui = exports.gui = new _gui2.default(flags.showGUI);
 
 gui.width = 500;
 
-},{"../flags":16,"../gui":17}],16:[function(require,module,exports){
+},{"../flags":11,"../gui":12}],11:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -43057,7 +42162,7 @@ var showGUI = exports.showGUI = true;
 folder.add(exports, 'debug');
 folder.add(exports, 'showHelpers');
 
-},{"./controllers/gui":15}],17:[function(require,module,exports){
+},{"./controllers/gui":10}],12:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -43207,7 +42312,7 @@ function GUI() {
 	return new Cls();
 }
 
-},{"dat-gui":1}],18:[function(require,module,exports){
+},{"dat-gui":1}],13:[function(require,module,exports){
 "use strict";
 
 var slice = [].slice;
@@ -43276,7 +42381,7 @@ module.exports = {
 	}
 };
 
-},{}],19:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -43334,7 +42439,7 @@ exports.default = new (function () {
 	return Screen;
 }())();
 
-},{"happens":4}],20:[function(require,module,exports){
+},{"happens":4}],15:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -43357,7 +42462,7 @@ function _interopRequireDefault(obj) {
 var cameraDev = exports.cameraDev = new _three2.default.PerspectiveCamera(65, _screen2.default.width / _screen2.default.height, 0.1, 100000);
 var cameraUser = exports.cameraUser = new _three2.default.PerspectiveCamera(65, _screen2.default.width / _screen2.default.height, 0.1, 100000);
 
-},{"../screen":19,"three.js":13}],21:[function(require,module,exports){
+},{"../screen":14,"three.js":8}],16:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -43406,7 +42511,7 @@ function updateLights() {
 
 exports.default = lights;
 
-},{"../controllers/gui":15,"./scene":23,"three.js":13}],22:[function(require,module,exports){
+},{"../controllers/gui":10,"./scene":18,"three.js":8}],17:[function(require,module,exports){
 'use strict';
 
 var _three = require('three.js');
@@ -43428,7 +42533,7 @@ renderer.setSize(_screen2.default.width, _screen2.default.height);
 
 module.exports = renderer;
 
-},{"../screen":19,"three.js":13}],23:[function(require,module,exports){
+},{"../screen":14,"three.js":8}],18:[function(require,module,exports){
 'use strict';
 
 var _three = require('three.js');
@@ -43462,7 +42567,7 @@ module.exports = new _three2.default.Scene();
 //	animate();
 //} );
 
-},{"three.js":13}]},{},[14])
+},{"three.js":8}]},{},[9])
 
 
 //# sourceMappingURL=bundle.js.map
