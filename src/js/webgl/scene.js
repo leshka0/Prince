@@ -1,6 +1,8 @@
-import THREE from 'three.js'
+import THREE from 'three.js';
+//import ColladaLoader from 'three.js/examples/js/loaders/ColladaLoader.js';
 
 module.exports = new THREE.Scene()
+
 
 //alert("LOL")
 

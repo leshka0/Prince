@@ -1,7 +1,7 @@
 import {gui} from './controllers/gui';
 
 let folder = gui.addFolder('flags')
-folder.open()
+//folder.open()
 
 export const live  		 = false;
 export const debug  	 = true;
