@@ -1,4 +1,5 @@
 import THREE from 'three.js';
+window.THREE = THREE
 import * as flags from './flags';
 import {gui} from './controllers/gui';
 import Screen from './screen';
@@ -9,24 +10,23 @@ import {cameraDev, cameraUser} from './webgl/cameras';
 const renderer = require('./webgl/renderer')
 const scene = require('./webgl/scene');
 const OrbitControls = require('three-orbit-controls')(THREE);
+require('./lib/three/ColladaLoader.js')
+require('./lib/three/Animation.js')
+require('./lib/three/AnimationHandler.js')
+require('./lib/three/KeyFrameAnimation.js')
+require('./lib/three/Detector.js')
+require('./lib/three/stats.min.js')
 
-//console.log(THREE)
-const colladaload1 = require('../../node_modules/three.js/examples/js/loaders/ColladaLoader.js')(THREE);
-//const colladaload2 = require('../../node_modules/three.js/examples/js/loaders/collada/Animation.js')(THREE);
-//const colladaload3 = require('../../node_modules/three.js/examples/js/loaders/collada/AnimationHandler.js')(THREE);
-//const colladaload4 = require('../../node_modules/three.js/examples/js/loaders/collada/KeyFrameAnimation.js')(THREE);
-//const colladaload5 = require('../../node_modules/three.js/examples/js/Detector.js')(THREE);
-//const colladaload6 = require('../../node_modules/three.js/examples/js/libs/stats.min.js')(THREE);
-
-
+console.log(THREE.ColladaLoader);
+console.log(THREE.Animation);
+console.log(THREE.AnimationHandler);
+console.log(THREE.KeyFrameAnimation);
 
 class App{
 
 	constructor(){
 
 		c.enable = true;
-
-		c.log('IVXVIXVIII');
 
 		this.zoom( cameraDev, 100 );
 
