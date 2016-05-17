@@ -8,7 +8,6 @@ import lights from './webgl/lights'
 
 import {cameraDev, cameraUser} from './webgl/cameras';
 
-const OrbitControls = require('three-orbit-controls')(THREE);
 const renderer = require('./webgl/renderer')
 const scene = require('./webgl/scene');
 
@@ -17,23 +16,24 @@ var mouseX = 0
 var mouseY = 0
 var windowHalfX = window.innerWidth / 2;
 var windowHalfY = window.innerHeight / 2;
+
+var prince = null
+
 function onDocumentMouseMove(event) {
-	//console.log("move")
 	mouseX = ( event.clientX - windowHalfX ) * 1;
 	mouseY = ( event.clientY - windowHalfY ) * 1;
 }
-
 document.addEventListener( 'mousemove', onDocumentMouseMove, false );
-//console.log(THREE)
-//const colladaload1 = require('../../node_modules/three.js/examples/js/loaders/ColladaLoader.js')(THREE);
-//const colladaload2 = require('../../node_modules/three.js/examples/js/loaders/collada/Animation.js')(THREE);
-//const colladaload3 = require('../../node_modules/three.js/examples/js/loaders/collada/AnimationHandler.js')(THREE);
-//const colladaload4 = require('../../node_modules/three.js/examples/js/loaders/collada/KeyFrameAnimation.js')(THREE);
-//const colladaload5 = require('../../node_modules/three.js/examples/js/Detector.js')(THREE);
-//const colladaload6 = require('../../node_modules/three.js/examples/js/libs/stats.min.js')(THREE);
-
 
 const OrbitControls = require('three-orbit-controls')(THREE);
+// AUDIO LOADER
+require('./lib/three/audio/Audio.js') 
+require('./lib/three/audio/AudioAnalyser.js') 
+require('./lib/three/audio/AudioListener.js') 
+require('./lib/three/audio/PositionalAudio.js') 
+require('./lib/three/audio/AudioContext.js') 
+require('./lib/three/audio/AudioLoader.js') 
+//COLLADA LOADER
 require('./lib/three/ColladaLoader.js')
 require('./lib/three/Animation.js')
 require('./lib/three/AnimationHandler.js')
@@ -41,17 +41,15 @@ require('./lib/three/KeyFrameAnimation.js')
 require('./lib/three/Detector.js')
 require('./lib/three/stats.min.js')
 
-console.log(THREE.ColladaLoader);
-console.log(THREE.Animation);
-console.log(THREE.AnimationHandler);
-console.log(THREE.KeyFrameAnimation);
+
 
 class App{
+
+	
 
 	constructor(){
 
 		c.enable = true;
-
 		c.log('IVXVIXVIII');
 
 		this.zoom( cameraDev, 100 );
@@ -77,7 +75,7 @@ class App{
 		const texture = new THREE.VideoTexture(document.getElementById('video'))
 		texture.minFilter = THREE.LinearFilter;
 		texture.magFilter = THREE.LinearFilter;
-		const mesh = new THREE.Mesh(new THREE.PlaneGeometry(100, 100), new THREE.MeshPhongMaterial({
+		prince = new THREE.Mesh(new THREE.PlaneGeometry(100, 100), new THREE.MeshPhongMaterial({
 			map: texture,
 			emissive: 0xffffff,
 			emissiveMap: texture,
@@ -85,9 +83,21 @@ class App{
 			color: 0xFFFFFF,
 			transparent: true
 		}))
-		mesh.position.set( 0, 50, 0 )
-		//mesh.rotation.set( 0, Math.PI/2, 0 )
-		scene.add(mesh)
+		prince.position.set( 0, 17, 0 )
+		prince.scale.set( 0.5, 0.5, 0.5 )
+		//prince.rotation.set( 0, Math.PI/2, 0 )
+		scene.add(prince)
+
+		// GUI
+		let princeFolder = gui.addFolder('PRINCE')
+		//lightFolder.open()
+		princeFolder.add(prince.position, 'x', -100, 100).name('pos x')
+		princeFolder.add(prince.position, 'y', -100, 100).name('pos y')
+		princeFolder.add(prince.position, 'z', -100, 100).name('pos z')
+	
+		princeFolder.add(prince.scale, 'x', 0, 2).name('scale x')
+		princeFolder.add(prince.scale, 'y', 0, 2).name('scale y')
+		princeFolder.add(prince.scale, 'z', 0, 2).name('scale z')
 
 		// SPHERE
 		var geometry = new THREE.SphereGeometry( 50, 16, 16 )
@@ -100,8 +110,109 @@ class App{
 		sphere.castShadow = true
 		sphere.receiveShadow = false
 		sphere.position.set( 0, -30, 0 )
-		scene.add( sphere )
+		//scene.add( sphere )
 
+		// AUDIO
+		var audioFile = 'audio/loopchapter6.mp3';
+		var audioListener = new THREE.AudioListener();
+		cameraUser.add( audioListener );
+		var oceanAmbientSound = new THREE.Audio( audioListener );
+		scene.add( oceanAmbientSound );
+		var loader = new THREE.AudioLoader();
+		loader.load(
+			// resource URL
+			audioFile,
+			// Function when resource is loaded
+			function ( audioBuffer ) {
+				// set the audio object buffer to the loaded object
+				oceanAmbientSound.setBuffer( audioBuffer );
+		
+				// play the audio
+				if (flags.soundActive == true){
+					oceanAmbientSound.play();
+				}
+				oceanAmbientSound.source.loop = true;
+			},
+			// Function called when download progresses
+			function ( xhr ) {
+				console.log( (xhr.loaded / xhr.total * 100) + '% loaded' );
+			},
+			// Function called when download errors
+			function ( xhr ) {
+				console.log( 'An error happened' );
+			}
+		);
+		//AUDIO voice
+		var audioFile = 'audio/FRchapter6.mp3';
+		var audioListener = new THREE.AudioListener();
+		cameraUser.add( audioListener );
+		var voiceSound = new THREE.Audio( audioListener );
+		scene.add( voiceSound );
+		var loader = new THREE.AudioLoader();
+		loader.load(
+			// resource URL
+			audioFile,
+			// Function when resource is loaded
+			function ( audioBuffer ) {
+				// set the audio object buffer to the loaded object
+				voiceSound.setBuffer( audioBuffer );
+		
+				// play the audio
+				if (flags.soundActive == true){
+					voiceSound.play();
+				}
+			},
+			// Function called when download progresses
+			function ( xhr ) {
+				console.log( (xhr.loaded / xhr.total * 100) + '% loaded' );
+			},
+			// Function called when download errors
+			function ( xhr ) {
+				console.log( 'An error happened' );
+			}
+		);
+
+		//OBJECT LOADER
+		var dae;
+		var dae_geometry;
+		var dae_material;
+		var loader = new THREE.ColladaLoader();
+		loader.options.convertUpAxis = true;
+		loader.load( 'models/bear/Scarf_on_bear14.dae', function ( collada ) {
+			
+			console.log("object loaded")
+			dae = collada.scene;
+
+			dae_material = new THREE.MeshBasicMaterial( { color: 0xff0000, wireframe: true } );
+			console.log("CHILDRENS :")
+			console.log(dae.children[3])
+			for (var i = 0; i < dae.children[3].children.length; i++) {
+				dae.children[3].children[i].material = dae_material;
+			}
+			
+
+			dae.scale.x = dae.scale.y = dae.scale.z = .3;
+			dae.position.y = -50;
+			dae.updateMatrix();
+		
+			scene.add( dae );
+			//init();
+			
+			// GUI
+			let objectFolder = gui.addFolder('Object')
+			//lightFolder.open()
+			objectFolder.add(dae.position, 'x', -100, 100).name('pos x')
+			objectFolder.add(dae.position, 'y', -100, 100).name('pos y')
+			objectFolder.add(dae.position, 'z', -100, 100).name('pos z')
+		
+			objectFolder.add(dae.scale, 'x', 0, 100).name('scale x')
+			objectFolder.add(dae.scale, 'y', 0, 100).name('scale y')
+			objectFolder.add(dae.scale, 'z', 0, 100).name('scale z')
+		} );
+		//function init() {
+		// Add the COLLADA
+
+		
 		//SKYBOX
 		var path = "img/skybox/";
 		var format = '.jpg';
@@ -179,6 +290,9 @@ class App{
 
 		cameraUser.position.x += ( (mouseX)/20 - cameraUser.position.x ) * .01;
 		cameraUser.position.y += ( ( mouseY)/100 - cameraUser.position.y ) * .02 - 0.2;
+		if (prince != undefined){
+			prince.rotation.y += ( ( mouseX)/2000 - prince.rotation.y ) * .01;
+		}
 		camera.lookAt( scene.position );
 
 

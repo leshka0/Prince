@@ -4,8 +4,9 @@ let folder = gui.addFolder('flags')
 //folder.open()
 
 export const live  		 = false;
-export const debug  	 = true;
-export const showHelpers = true;
+export const debug  	 = false;
+export const soundActive = true;
+export const showHelpers = false;
 export const showGUI 	 = true;
 
 folder.add(exports, 'debug')
